@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DevTrack — Issue Tracker</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark topbar">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="/">◈ DevTrack</a>
+    <span class="navbar-text text-light small">Issue tracking made simple</span>
+  </div>
+</nav>
+<main class="container py-4 py-lg-5">
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+    <div>
+      <p class="eyebrow mb-1">WORKSPACE OVERVIEW</p>
+      <h1 class="h2 fw-bold mb-1">Project issues</h1>
+      <p class="text-secondary mb-0">Create, prioritize, and track development work.</p>
+    </div>
+    <a href="#create-issue" class="btn btn-primary px-4">+ New issue</a>
+  </div>
+
+  <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+  <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+  <section class="row g-3 mb-4">
+    <div class="col-6 col-lg-3"><div class="metric-card"><span>Total issues</span><strong th:text="${total}">0</strong><small>All tracked work</small></div></div>
+    <div class="col-6 col-lg-3"><div class="metric-card"><span>To do</span><strong th:text="${todo}">0</strong><small>Waiting to start</small></div></div>
+    <div class="col-6 col-lg-3"><div class="metric-card"><span>In progress</span><strong th:text="${inProgress}">0</strong><small>Currently active</small></div></div>
+    <div class="col-6 col-lg-3"><div class="metric-card"><span>Completed</span><strong th:text="${done}">0</strong><small>Marked as done</small></div></div>
+  </section>
+
+  <section id="create-issue" class="panel mb-4">
+    <div class="panel-heading"><div><h2 class="h5 mb-1 fw-bold">Create an issue</h2><p class="text-secondary small mb-0">Capture a task or bug for your team.</p></div></div>
+    <form th:action="@{/issues}" th:object="${newIssue}" method="post" class="row g-3 p-3 p-md-4">
+      <div class="col-12"><label class="form-label" for="title">Title</label><input class="form-control" id="title" th:field="*{title}" maxlength="120" required placeholder="e.g. Fix login validation"></div>
+      <div class="col-12"><label class="form-label" for="description">Description</label><textarea class="form-control" id="description" th:field="*{description}" rows="2" maxlength="2000" placeholder="What needs to be done?"></textarea></div>
+      <div class="col-6"><label class="form-label" for="priority">Priority</label><select class="form-select" id="priority" th:field="*{priority}"><option th:each="p : ${priorities}" th:value="${p}" th:text="${p}"></option></select></div>
+      <div class="col-6"><label class="form-label" for="status">Status</label><select class="form-select" id="status" th:field="*{status}"><option th:each="s : ${statuses}" th:value="${s}" th:text="${s}"></option></select></div>
+      <div class="col-12"><button class="btn btn-primary" type="submit">Create issue</button></div>
+    </form>
+  </section>
+
+  <section class="panel">
+    <div class="panel-heading"><div><h2 class="h5 fw-bold mb-1">Issue board</h2><p class="text-secondary small mb-0">Most recently updated issues first.</p></div><span class="count-pill" th:text="${total} + ' issues'">0 issues</span></div>
+    <div th:if="${#lists.isEmpty(issues)}" class="empty-state"><div class="empty-icon">✓</div><h3 class="h6 fw-bold">You're all caught up</h3><p class="text-secondary mb-0">Create your first issue using the form above.</p></div>
+    <div th:unless="${#lists.isEmpty(issues)}" class="table-responsive">
+      <table class="table align-middle mb-0">
+        <thead><tr><th>Issue</th><th>Priority</th><th>Status</th><th>Update status</th><th></th></tr></thead>
+        <tbody>
+        <tr th:each="issue : ${issues}">
+          <td class="issue-cell"><strong th:text="${issue.title}">Issue title</strong><small th:text="${issue.description}">Description</small><small class="text-secondary" th:text="|#${issue.id} · Updated ${#temporals.format(issue.updatedAt, 'dd MMM HH:mm')}|">#1</small></td>
+          <td><span class="priority-pill" th:classappend="${' p-' + #strings.toLowerCase(issue.priority)}" th:text="${issue.priority}">MEDIUM</span></td>
+          <td><span class="status-pill" th:classappend="${' s-' + #strings.toLowerCase(issue.status)}" th:text="${#strings.replace(issue.status, '_', ' ')}">TODO</span></td>
+          <td><form th:action="@{/issues/{id}/status(id=${issue.id})}" method="post" class="d-flex gap-2"><select class="form-select form-select-sm status-select" name="status"><option th:each="s : ${statuses}" th:value="${s}" th:selected="${s == issue.status}" th:text="${#strings.replace(s, '_', ' ')}"></option></select><button class="btn btn-sm btn-outline-primary" type="submit">Save</button></form></td>
+          <td><form th:action="@{/issues/{id}/delete(id=${issue.id})}" method="post" onsubmit="return confirm('Delete this issue?')"><button class="btn btn-sm btn-outline-danger" type="submit" aria-label="Delete issue">×</button></form></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+  <footer class="text-center text-secondary small py-4">DevTrack MVP · Built with Spring Boot and PostgreSQL-ready JPA</footer>
+</main>
+</body>
+</html>

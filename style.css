@@ -1,0 +1,34 @@
+body { background: #f4f7fb; color: #182230; }
+.topbar { background: #14243b; box-shadow: 0 4px 18px rgba(17, 31, 51, .12); }
+.navbar-brand { letter-spacing: -.4px; }
+.eyebrow { font-size: .72rem; letter-spacing: .14em; color: #64748b; font-weight: 800; }
+.metric-card, .panel { background: #fff; border: 1px solid #e4eaf2; border-radius: 16px; box-shadow: 0 5px 20px rgba(21, 41, 68, .035); }
+.metric-card { min-height: 132px; padding: 20px; display: flex; flex-direction: column; gap: 3px; }
+.metric-card span { color: #66758a; font-size: .88rem; }
+.metric-card strong { font-size: 2rem; line-height: 1.2; letter-spacing: -.05em; }
+.metric-card small { color: #8b97a8; }
+.panel { overflow: hidden; }
+.panel-heading { padding: 20px 22px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #edf0f5; }
+.form-label { font-size: .86rem; font-weight: 650; }
+.form-control, .form-select { border-color: #dce3ec; border-radius: 9px; padding: .65rem .8rem; }
+.btn { border-radius: 9px; font-weight: 650; }
+.btn-primary { background: #315ee7; border-color: #315ee7; }
+.count-pill { background: #eef2ff; color: #315ee7; border-radius: 999px; padding: 6px 10px; font-size: .8rem; font-weight: 700; }
+.table thead th { background: #f9fafc; color: #778398; text-transform: uppercase; letter-spacing: .06em; font-size: .7rem; padding: 13px 18px; border-bottom-color: #edf0f5; white-space: nowrap; }
+.table tbody td { padding: 16px 18px; border-color: #f0f2f6; }
+.issue-cell { min-width: 210px; }
+.issue-cell strong, .issue-cell small { display: block; }
+.issue-cell small { color: #748196; margin-top: 4px; max-width: 300px; overflow-wrap: anywhere; }
+.priority-pill, .status-pill { display: inline-block; padding: 5px 9px; border-radius: 999px; font-size: .7rem; font-weight: 800; white-space: nowrap; }
+.p-low { color: #276749; background: #e5f7ee; }
+.p-medium { color: #875c0a; background: #fff4d7; }
+.p-high { color: #b45309; background: #ffedd5; }
+.p-critical { color: #b42318; background: #fee4e2; }
+.s-todo { color: #475569; background: #eef2f6; }
+.s-in_progress { color: #1d4ed8; background: #dbeafe; }
+.s-done { color: #15803d; background: #dcfce7; }
+.status-select { min-width: 125px; }
+.empty-state { padding: 52px 20px; text-align: center; }
+.empty-icon { width: 42px; height: 42px; display: grid; place-items: center; margin: 0 auto 12px; border-radius: 50%; background: #e8f8ef; color: #17834d; font-size: 1.3rem; }
+footer { font-size: .8rem; }
+@media (max-width: 600px) { .panel-heading { padding: 16px; } .table tbody td { padding: 12px; } .metric-card { padding: 15px; min-height: 120px; } .metric-card strong { font-size: 1.7rem; } }
